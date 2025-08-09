@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friscolanti Funeral Chapel Obituary Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/openai@4"></script>
     <style>
         body {
             background-color: #f9fafb;
@@ -126,75 +125,4 @@
                 <textarea id="funeral" name="funeral" rows="4" placeholder="e.g., Visitation and service details"></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="burial">Burial or Entombment Details</label>
-                <input type="text" id="burial" name="burial" placeholder="e.g., Holy Sepulchre Cemetery">
-            </div>
-
-            <button type="submit" class="btn">Generate Obituary</button>
-        </form>
-
-        <div id="obituaryOutput" class="hidden">
-            <h2 class="text-xl font-semibold text-gray-900 mb-4">Generated Obituary</h2>
-            <p id="obituaryText" class="text-gray-700"></p>
-        </div>
-    </div>
-
-    <script>
-        // Initialize OpenAI client with xAI's API
-        const openai = new OpenAI({
-            apiKey: 'xai-EyglFVPeErTJXEBZhIRZzidNmeCda2ir54x8lReDny2boybmpDmZNvMjmvgs3mtp9idH7p5l2dKbOTUJ',
-            baseURL: 'https://api.x.ai/v1',
-            dangerouslyAllowBrowser: true // Required for client-side use (not secure for production)
-        });
-
-        document.getElementById('obituaryForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Collect form data
-            const fullName = document.getElementById('fullName').value || '[Full Name]';
-            const birthDate = document.getElementById('birthDate').value || '[Birth Date]';
-            const deathDate = document.getElementById('deathDate').value || '[Date of Passing]';
-            const birthplace = document.getElementById('birthplace').value || '[Birthplace]';
-            const relocation = document.getElementById('relocation').value || '';
-            const heritage = document.getElementById('heritage').value || '';
-            const family = document.getElementById('family').value || '[Family Members]';
-            const hobbies = document.getElementById('hobbies').value || '[Hobbies and Interests]';
-            const career = document.getElementById('career').value || '[Career or Achievements]';
-            const donations = document.getElementById('donations').value || '';
-            const thanks = document.getElementById('thanks').value || '';
-            const funeral = document.getElementById('funeral').value || '[Funeral Arrangements]';
-            const burial = document.getElementById('burial').value || '[Burial or Entombment Details]';
-
-            // Construct a prompt for Grok
-            const prompt = `Generate a heartfelt, professional obituary for ${fullName}, born on ${birthDate} in ${birthplace}, who passed away on ${deathDate}. 
-Include details like: ${relocation ? `Immigration/relocation: ${relocation}. ` : ''}${heritage ? `Cultural heritage: ${heritage}. ` : ''}Family: ${family}. 
-Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Funeral: ${funeral}. Burial: ${burial}. 
-Make it warm, concise, and around 200-300 words.`;
-
-            try {
-                const response = await openai.chat.completions.create({
-                    model: 'grok-4-latest',
-                    messages: [
-                        { role: 'system', content: 'You are a helpful assistant specialized in writing obituaries.' },
-                        { role: 'user', content: prompt }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 500
-                });
-
-                const obituary = response.choices[0].message.content.trim();
-
-                // Display the result
-                const outputDiv = document.getElementById('obituaryOutput');
-                const outputText = document.getElementById('obituaryText');
-                outputText.textContent = obituary;
-                outputDiv.classList.remove('hidden');
-            } catch (error) {
-                console.error('Error generating obituary:', error);
-                alert('Failed to generate obituary. Check console for details.');
-            }
-        });
-    </script>
-</body>
-</html>
+            <div class
