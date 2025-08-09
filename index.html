@@ -121,7 +121,7 @@
 
             <div class="form-group">
                 <label for="family">Family Members</label>
-                <textarea id="family" name="family" rows="4" placeholder="e.g., spouse, children, siblings; use 'the late' for deceased"></textarea>
+                <textarea id="family" name="family" rows="4" placeholder="e.g., spouse Jane Doe, the late son John Doe, daughter Sarah; use 'the late' for deceased"></textarea>
             </div>
 
             <div class="form-group">
@@ -212,9 +212,10 @@
 
             // Construct a prompt for Cohere
             const prompt = `Generate a heartfelt, professional obituary for ${fullName}, born on ${birthDate} in ${birthplace}, who passed away peacefully at ${placeOfPassing} on ${deathDate}, at the age of ${age}. 
-Include details like: ${relocation ? `Immigration/relocation: ${relocation}. ` : ''}${heritage ? `Cultural heritage: ${heritage}. ` : ''}Family: ${family}. 
+Include only the following details exactly as provided, without adding or inventing any names, websites, or additional information. For deceased family members, use 'the late' as provided (e.g., 'the late John Doe'). 
+${relocation ? `Immigration/relocation: ${relocation}. ` : ''}${heritage ? `Cultural heritage: ${heritage}. ` : ''}Family: ${family}. 
 Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Visitation: ${visitationDetails}. Funeral service: ${funeralService}. Burial: ${burial}. 
-Make it warm, concise, and around 200-300 words.`;
+Do not include any condolence websites or external links. Make it warm, concise, and around 200-300 words.`;
 
             // Cohere API key
             const apiKey = 'tGs2ZSjQdvUrHD8cKcMUFGvpGK7BgFaVgABgQmJl';
