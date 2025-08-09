@@ -4,122 +4,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Friscolanti Funeral Chapel Obituary Generator</title>
-    <script src="https://cdn.tailtailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            background-color: #F0EAD6;
-            margin: 0;
-            padding: 0;
+            background-color: #f9fafb;
+            font-family: 'Inter', sans-serif;
         }
-        .content-container {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 20px;
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+            color: #1f2937;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #2563eb;
+        }
+        #obituaryOutput {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
-    <div class="content-container">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-            <h1 class="text-2xl font-bold text-center mb-6">Friscolanti Funeral Chapel Obituary Generator</h1>
-            <p class="text-gray-600 text-center mb-4">Enter details to generate a heartfelt obituary. Leave any field blank if desired.</p>
-            <form id="obituaryForm" class="space-y-4">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                    <input type="text" id="name" name="name" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="birthDate" class="block text-sm font-medium text-gray-700">Birth Date</label>
-                    <input type="date" id="birthDate" name="birthDate" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="deathDate" class="block text-sm font-medium text-gray-700">Date of Passing</label>
-                    <input type="date" id="deathDate" name="deathDate" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label for="birthplace" class="block text-sm font-medium text-gray-700">Birthplace</label>
-                    <input type="text" id="birthplace" name="birthplace" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Donnici, Italy">
-                </div>
-                <div>
-                    <label for="immigration" class="block text-sm font-medium text-gray-700">Immigration or Relocation Details</label>
-                    <textarea id="immigration" name="immigration" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Immigrated to Windsor, later settled in Hamilton"></textarea>
-                </div>
-                <div>
-                    <label for="heritage" class="block text-sm font-medium text-gray-700">Cultural Heritage or Values</label>
-                    <textarea id="heritage" name="heritage" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Italian heritage, strong family values"></textarea>
-                </div>
-                <div>
-                    <label for="family" class="block text-sm font-medium text-gray-700">Family Members (e.g., spouse, children, siblings; use 'the late' for deceased)</label>
-                    <textarea id="family" name="family" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Survived by spouse Jane, children John and Mary, and the late sibling Robert"></textarea>
-                </div>
-                <div>
-                    <label for="hobbies" class="block text-sm font-medium text-gray-700">Hobbies and Interests</label>
-                    <textarea id="hobbies" name="hobbies" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Gardening, painting, volunteering"></textarea>
-                </div>
-                <div>
-                    <label for="career" class="block text-sm font-medium text-gray-700">Career or Achievements</label>
-                    <textarea id="career" name="career" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Retired teacher, community leader"></textarea>
-                </div>
-                <div>
-                    <label for="donations" class="block text-sm font-medium text-gray-700">Donation Preferences (e.g., charities or causes)</label>
-                    <textarea id="donations" name="donations" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., In lieu of flowers, donations to Alzheimer Society"></textarea>
-                </div>
-                <div>
-                    <label for="thanks" class="block text-sm font-medium text-gray-700">Special Thank Yous</label>
-                    <textarea id="thanks" name="thanks" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Thanks to the staff at Mercy Hospital"></textarea>
-                </div>
-                <div>
-                    <label for="funeral" class="block text-sm font-medium text-gray-700">Funeral Arrangements</label>
-                    <textarea id="funeral" name="funeral" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Visitation at Frisolanti Funeral Chapel, August 8, 2-5 p.m."></textarea>
-                </div>
-                <div>
-                    <label for="burial" class="block text-sm font-medium text-gray-700">Burial or Entombment Details</label>
-                    <textarea id="burial" name="burial" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Entombment at Holy Sepulchre Cemetery"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition">Generate Obituary</button>
-            </form>
-            <div id="result" class="mt-6 hidden">
-                <h2 class="text-xl font-semibold mb-2">Generated Obituary</h2>
-                <p id="obituaryText" class="text-gray-700"></p>
+    <div class="container">
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Friscolanti Funeral Chapel Obituary Generator</h1>
+        <p class="text-gray-600 mb-6">Enter details to generate a heartfelt obituary. Leave any field blank if desired.</p>
+
+        <form id="obituaryForm" class="space-y-6">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter full name">
             </div>
+
+            <div class="form-group">
+                <label for="birthDate">Birth Date</label>
+                <input type="text" id="birthDate" name="birthDate" placeholder="e.g., January 1, 1950">
+            </div>
+
+            <div class="form-group">
+                <label for="deathDate">Date of Passing</label>
+                <input type="text" id="deathDate" name="deathDate" placeholder="e.g., August 1, 2025">
+            </div>
+
+            <div class="form-group">
+                <label for="birthplace">Birthplace</label>
+                <input type="text" id="birthplace" name="birthplace" placeholder="e.g., Hamilton, Ontario">
+            </div>
+
+            <div class="form-group">
+                <label for="relocation">Immigration or Relocation Details</label>
+                <input type="text" id="relocation" name="relocation" placeholder="e.g., Immigrated from Italy in 1960">
+            </div>
+
+            <div class="form-group">
+                <label for="heritage">Cultural Heritage or Values</label>
+                <input type="text" id="heritage" name="heritage" placeholder="e.g., Proud Italian heritage">
+            </div>
+
+            <div class="form-group">
+                <label for="family">Family Members</label>
+                <textarea id="family" name="family" rows="4" placeholder="e.g., spouse, children, siblings; use 'the late' for deceased"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="hobbies">Hobbies and Interests</label>
+                <textarea id="hobbies" name="hobbies" rows="4" placeholder="e.g., Gardening, painting, volunteering"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="career">Career or Achievements</label>
+                <textarea id="career" name="career" rows="4" placeholder="e.g., Retired teacher, community leader"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="donations">Donation Preferences</label>
+                <input type="text" id="donations" name="donations" placeholder="e.g., Heart and Stroke Foundation">
+            </div>
+
+            <div class="form-group">
+                <label for="thanks">Special Thank Yous</label>
+                <textarea id="thanks" name="thanks" rows="4" placeholder="e.g., Thank you to the staff at St. Peter's Hospital"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="funeral">Funeral Arrangements</label>
+                <textarea id="funeral" name="funeral" rows="4" placeholder="e.g., Visitation and service details"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="burial">Burial or Entombment Details</label>
+                <input type="text" id="burial" name="burial" placeholder="e.g., Holy Sepulchre Cemetery">
+            </div>
+
+            <button type="submit" class="btn">Generate Obituary</button>
+        </form>
+
+        <div id="obituaryOutput" class="hidden">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Generated Obituary</h2>
+            <p id="obituaryText" class="text-gray-700"></p>
         </div>
     </div>
 
     <script>
-        document.getElementById('obituaryForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const name = document.getElementById('name').value;
-            const birthDate = document.getElementById('birthDate').value;
-            const deathDate = document.getElementById('deathDate').value;
-            const birthplace = document.getElementById('birthplace').value || 'their hometown';
-            const immigration = document.getElementById('immigration').value || '';
-            const heritage = document.getElementById('heritage').value || 'their cherished values';
-            const family = document.getElementById('family').value || 'their loved ones';
-            const hobbies = document.getElementById('hobbies').value || 'many cherished hobbies';
-            const career = document.getElementById('career').value || 'a fulfilling career';
+        document.getElementById('obituaryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value || '[Full Name]';
+            const birthDate = document.getElementById('birthDate').value || '[Birth Date]';
+            const deathDate = document.getElementById('deathDate').value || '[Date of Passing]';
+            const birthplace = document.getElementById('birthplace').value || '[Birthplace]';
+            const relocation = document.getElementById('relocation').value || '';
+            const heritage = document.getElementById('heritage').value || '';
+            const family = document.getElementById('family').value || '[Family Members]';
+            const hobbies = document.getElementById('hobbies').value || '[Hobbies and Interests]';
+            const career = document.getElementById('career').value || '[Career or Achievements]';
             const donations = document.getElementById('donations').value || '';
             const thanks = document.getElementById('thanks').value || '';
-            const funeral = document.getElementById('funeral').value || '';
-            const burial = document.getElementById('burial').value || '';
+            const funeral = document.getElementById('funeral').value || '[Funeral Arrangements]';
+            const burial = document.getElementById('burial').value || '[Burial or Entombment Details]';
 
-            let obituary = `With heavy hearts, we announce the passing of ${name}, who passed away peacefully on ${deathDate}, surrounded by loved ones. `;
-            obituary += `Born on ${birthDate} in ${birthplace}, ${name} lived a life rooted in ${heritage}. `;
-            if (immigration) { obituary += `${immigration}. `; }
-            obituary += `${name} was known for ${career}, leaving a lasting impact on their community. `;
-            obituary += `They found joy in ${hobbies}, bringing warmth and inspiration to those around them. `;
-            obituary += `${family}. `;
-            if (thanks) { obituary += `Special thanks to ${thanks} for their care and support. `; }
-            if (donations) { obituary += `${donations}. `; }
-            if (funeral) { obituary += `${funeral}. `; }
-            if (burial) { obituary += `${burial}. `; }
-            obituary += `${name} will be deeply missed, leaving behind a legacy of love and cherished memories.`;
+            let obituary = `${fullName}, born on ${birthDate} in ${birthplace}, passed away peacefully on ${deathDate}. `;
+            if (relocation) obituary += `${relocation}. `;
+            if (heritage) obituary += `${fullName} was proud of their ${heritage}. `;
+            obituary += `They will be deeply missed by ${family}. `;
+            obituary += `${fullName} enjoyed ${hobbies}. `;
+            obituary += `They were known for ${career}. `;
+            if (donations) obituary += `In lieu of flowers, donations may be made to ${donations}. `;
+            if (thanks) obituary += `${thanks}. `;
+            obituary += `Funeral arrangements include ${funeral}. `;
+            obituary += `Burial will take place at ${burial}.`;
 
-            const resultDiv = document.getElementById('result');
-            const obituaryText = document.getElementById('obituaryText');
-            obituaryText.textContent = obituary;
-            resultDiv.classList.remove('hidden');
+            const outputDiv = document.getElementById('obituaryOutput');
+            const outputText = document.getElementById('obituaryText');
+            outputText.textContent = obituary;
+            outputDiv.classList.remove('hidden');
         });
     </script>
 </body>
