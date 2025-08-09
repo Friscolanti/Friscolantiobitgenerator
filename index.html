@@ -210,12 +210,19 @@
             // Construct visitation details with fixed location
             const visitationDetails = `Visitation at FRISCOLANTI FUNERAL CHAPEL, 43 Barton St. E. ${visitation ? `on ${visitation}.` : ''}`;
 
-            // Construct a prompt for Cohere
-            const prompt = `Generate a heartfelt, professional obituary for ${fullName}, born on ${birthDate} in ${birthplace}, who passed away peacefully at ${placeOfPassing} on ${deathDate}, at the age of ${age}. 
-Include only the following details exactly as provided, without adding or inventing any names, websites, or additional information. For deceased family members, use 'the late' as provided (e.g., 'the late John Doe'). 
-${relocation ? `Immigration/relocation: ${relocation}. ` : ''}${heritage ? `Cultural heritage: ${heritage}. ` : ''}Family: ${family}. 
-Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Visitation: ${visitationDetails}. Funeral service: ${funeralService}. Burial: ${burial}. 
-Do not include any condolence websites or external links. Make it warm, concise, and around 200-300 words.`;
+            // Construct a prompt for Cohere with structured format
+            const prompt = `Generate a heartfelt, professional obituary for ${fullName} in the following exact order and style, using only the provided details without adding or inventing names, websites, or additional information. For deceased family members, use 'the late' as provided (e.g., 'the late John Doe'). Do not include condolence websites or external links.
+
+1. Start with: "Passed away peacefully at ${placeOfPassing} on ${deathDate}, at the age of ${age}."
+2. Follow with: "Born on ${birthDate} in ${birthplace}, ${fullName} built a meaningful life rooted in ${heritage ? `${heritage}` : 'love and dedication'}${relocation ? ` after ${relocation}` : ''}."
+3. Family: "${family}."
+4. Personal qualities: Describe ${fullName} as a person based on provided details, e.g., kind, loving, or strong.
+5. Career and hobbies: "${career}. Outside of work, ${fullName} enjoyed ${hobbies}."
+6. Special thanks: "${thanks ? `Special thank you to ${thanks}.` : ''}"
+7. Funeral details: "Resting at FRISCOLANTI FUNERAL CHAPEL, 43 Barton St. E., ${visitation ? `on ${visitation}` : 'with visitation details to be announced'} until the time of the funeral service ${funeralService}. ${burial ? `Entombment to follow at ${burial}.` : ''}"
+8. Closing: "We celebrate ${fullName}'s life with gratitude for the love they gave and the legacy they leave behind."
+
+Keep the tone warm, concise, and around 200-300 words.`;
 
             // Cohere API key
             const apiKey = 'tGs2ZSjQdvUrHD8cKcMUFGvpGK7BgFaVgABgQmJl';
