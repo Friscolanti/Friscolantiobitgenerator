@@ -140,9 +140,10 @@
     </div>
 
     <script>
-        document.getElementById('obituaryForm').addEventListener('submit', function(e) {
+        document.getElementById('obituaryForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Collect form data
             const fullName = document.getElementById('fullName').value || '[Full Name]';
             const birthDate = document.getElementById('birthDate').value || '[Birth Date]';
             const deathDate = document.getElementById('deathDate').value || '[Date of Passing]';
@@ -157,21 +158,49 @@
             const funeral = document.getElementById('funeral').value || '[Funeral Arrangements]';
             const burial = document.getElementById('burial').value || '[Burial or Entombment Details]';
 
-            let obituary = `${fullName}, born on ${birthDate} in ${birthplace}, passed away peacefully on ${deathDate}. `;
-            if (relocation) obituary += `${relocation}. `;
-            if (heritage) obituary += `${fullName} was proud of their ${heritage}. `;
-            obituary += `They will be deeply missed by ${family}. `;
-            obituary += `${fullName} enjoyed ${hobbies}. `;
-            obituary += `They were known for ${career}. `;
-            if (donations) obituary += `In lieu of flowers, donations may be made to ${donations}. `;
-            if (thanks) obituary += `${thanks}. `;
-            obituary += `Funeral arrangements include ${funeral}. `;
-            obituary += `Burial will take place at ${burial}.`;
+            // Construct a prompt for Grok
+            const prompt = `Generate a heartfelt, professional obituary for ${fullName}, born on ${birthDate} in ${birthplace}, who passed away on ${deathDate}. 
+Include details like: ${relocation ? `Immigration/relocation: ${relocation}. ` : ''}${heritage ? `Cultural heritage: ${heritage}. ` : ''}Family: ${family}. 
+Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Funeral: ${funeral}. Burial: ${burial}. 
+Make it warm, concise, and around 200-300 words.`;
 
-            const outputDiv = document.getElementById('obituaryOutput');
-            const outputText = document.getElementById('obituaryText');
-            outputText.textContent = obituary;
-            outputDiv.classList.remove('hidden');
+            // API key from the provided curl
+            const apiKey = 'xai-OVzdC0dSZGCBJxp09htyY3wR9yOlvwoyMDQ4bw4wyaIvjBrRkiMoXkbCK4ZPGyfR2KK9kEPDCVmSPtWi';
+
+            try {
+                const response = await fetch('https://api.x.ai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'grok-4-latest',  // Updated model from the curl
+                        messages: [
+                            { role: 'system', content: 'You are a helpful assistant specialized in writing obituaries.' },
+                            { role: 'user', content: prompt }
+                        ],
+                        temperature: 0.7,  // Adjust for creativity (0-1)
+                        max_tokens: 500  // Limit output length
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const obituary = data.choices[0].message.content.trim();
+
+                // Display the result
+                const outputDiv = document.getElementById('obituaryOutput');
+                const outputText = document.getElementById('obituaryText');
+                outputText.textContent = obituary;
+                outputDiv.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error generating obituary:', error);
+                alert('Failed to generate obituary. Check console for details.');
+            }
         });
     </script>
 </body>
