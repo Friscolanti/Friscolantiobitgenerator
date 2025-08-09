@@ -100,6 +100,11 @@
             </div>
 
             <div class="form-group">
+                <label for="placeOfPassing">Place of Passing</label>
+                <input type="text" id="placeOfPassing" name="placeOfPassing" placeholder="e.g., St. Joseph's Health Care">
+            </div>
+
+            <div class="form-group">
                 <label for="birthplace">Birthplace</label>
                 <input type="text" id="birthplace" name="birthplace" placeholder="e.g., Hamilton, Ontario">
             </div>
@@ -140,8 +145,13 @@
             </div>
 
             <div class="form-group">
-                <label for="funeral">Funeral Arrangements</label>
-                <textarea id="funeral" name="funeral" rows="4" placeholder="e.g., Visitation and service details"></textarea>
+                <label for="visitation">Visitation Dates/Times</label>
+                <textarea id="visitation" name="visitation" rows="4" placeholder="e.g., Visitation on August 10, 2025, from 2-4 PM and 7-9 PM"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="funeralService">Funeral Service Details</label>
+                <textarea id="funeralService" name="funeralService" rows="4" placeholder="e.g., Service at St. Mary's Church on August 11, 2025, at 10 AM"></textarea>
             </div>
 
             <div class="form-group">
@@ -174,6 +184,7 @@
             const fullName = document.getElementById('fullName').value || '[Full Name]';
             const birthDate = document.getElementById('birthDate').value || '[Birth Date]';
             const deathDate = document.getElementById('deathDate').value || '[Date of Passing]';
+            const placeOfPassing = document.getElementById('placeOfPassing').value || '[Place of Passing]';
             const birthplace = document.getElementById('birthplace').value || '[Birthplace]';
             const relocation = document.getElementById('relocation').value || '';
             const heritage = document.getElementById('heritage').value || '';
@@ -182,13 +193,27 @@
             const career = document.getElementById('career').value || '[Career or Achievements]';
             const donations = document.getElementById('donations').value || '';
             const thanks = document.getElementById('thanks').value || '';
-            const funeral = document.getElementById('funeral').value || '[Funeral Arrangements]';
+            const visitation = document.getElementById('visitation').value || '';
+            const funeralService = document.getElementById('funeralService').value || '[Funeral Service Details]';
             const burial = document.getElementById('burial').value || '[Burial or Entombment Details]';
 
+            // Calculate age (simple year-based calculation)
+            let age = '[Age]';
+            if (birthDate !== '[Birth Date]' && deathDate !== '[Date of Passing]') {
+                const birthYear = parseInt(birthDate.match(/\d{4}/));
+                const deathYear = parseInt(deathDate.match(/\d{4}/));
+                if (birthYear && deathYear) {
+                    age = deathYear - birthYear;
+                }
+            }
+
+            // Construct visitation details with fixed location
+            const visitationDetails = `Visitation at FRISCOLANTI FUNERAL CHAPEL, 43 Barton St. E. ${visitation ? `on ${visitation}.` : ''}`;
+
             // Construct a prompt for Cohere
-            const prompt = `Generate a heartfelt, professional obituary for ${fullName}, born on ${birthDate} in ${birthplace}, who passed away on ${deathDate}. 
+            const prompt = `Generate a heartfelt, professional obituary for ${fullName}, born on ${birthDate} in ${birthplace}, who passed away peacefully at ${placeOfPassing} on ${deathDate}, at the age of ${age}. 
 Include details like: ${relocation ? `Immigration/relocation: ${relocation}. ` : ''}${heritage ? `Cultural heritage: ${heritage}. ` : ''}Family: ${family}. 
-Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Funeral: ${funeral}. Burial: ${burial}. 
+Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Visitation: ${visitationDetails}. Funeral service: ${funeralService}. Burial: ${burial}. 
 Make it warm, concise, and around 200-300 words.`;
 
             // Cohere API key
