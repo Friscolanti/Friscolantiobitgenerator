@@ -125,4 +125,80 @@
                 <textarea id="funeral" name="funeral" rows="4" placeholder="e.g., Visitation and service details"></textarea>
             </div>
 
-            <div class
+            <div class="form-group">
+                <label for="burial">Burial or Entombment Details</label>
+                <input type="text" id="burial" name="burial" placeholder="e.g., Holy Sepulchre Cemetery">
+            </div>
+
+            <button type="submit" class="btn">Generate Obituary</button>
+        </form>
+
+        <div id="obituaryOutput" class="hidden">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Generated Obituary</h2>
+            <p id="obituaryText" class="text-gray-700"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('obituaryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const fullName = document.getElementById('fullName').value || '[Full Name]';
+            const birthDate = document.getElementById('birthDate').value || '[Birth Date]';
+            const deathDate = document.getElementById('deathDate').value || '[Date of Passing]';
+            const birthplace = document.getElementById('birthplace').value || '[Birthplace]';
+            const relocation = document.getElementById('relocation').value || '';
+            const heritage = document.getElementById('heritage').value || '';
+            const family = document.getElementById('family').value || '[Family Members]';
+            const hobbies = document.getElementById('hobbies').value || '[Hobbies and Interests]';
+            const career = document.getElementById('career').value || '[Career or Achievements]';
+            const donations = document.getElementById('donations').value || '';
+            const thanks = document.getElementById('thanks').value || '';
+            const funeral = document.getElementById('funeral').value || '[Funeral Arrangements]';
+            const burial = document.getElementById('burial').value || '[Burial or Entombment Details]';
+
+            // Construct a prompt for Cohere
+            const prompt = `Generate a heartfelt, professional obituary for ${fullName}, born on ${birthDate} in ${birthplace}, who passed away on ${deathDate}. 
+Include details like: ${relocation ? `Immigration/relocation: ${relocation}. ` : ''}${heritage ? `Cultural heritage: ${heritage}. ` : ''}Family: ${family}. 
+Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Funeral: ${funeral}. Burial: ${burial}. 
+Make it warm, concise, and around 200-300 words.`;
+
+            // Cohere API key provided
+            const apiKey = 'tGs2ZSjQdvUrHD8cKcMUFGvpGK7BgFaVgABgQmJl';
+
+            try {
+                const response = await fetch('https://api.cohere.ai/v1/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'command', // Cohere's text generation model (updated to a commonly used model)
+                        prompt: prompt,
+                        max_tokens: 500,
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const obituary = data.generations[0].text.trim();
+
+                // Display the result
+                const outputDiv = document.getElementById('obituaryOutput');
+                const outputText = document.getElementById('obituaryText');
+                outputText.textContent = obituary;
+                outputDiv.classList.remove('hidden');
+            } catch (error) {
+                console.error('Error generating obituary:', error);
+                alert('Failed to generate obituary. Check console for details.');
+            }
+        });
+    </script>
+</body>
+</html>
