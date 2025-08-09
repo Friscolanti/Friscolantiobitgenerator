@@ -50,12 +50,31 @@
         .btn:hover {
             background-color: #2563eb;
         }
+        .btn:disabled {
+            background-color: #93c5fd;
+            cursor: not-allowed;
+        }
         #obituaryOutput {
             background-color: white;
             padding: 1.5rem;
             border-radius: 0.375rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             margin-top: 2rem;
+        }
+        /* Loading spinner styles */
+        .loader {
+            display: none;
+            margin: 1rem auto;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -130,8 +149,10 @@
                 <input type="text" id="burial" name="burial" placeholder="e.g., Holy Sepulchre Cemetery">
             </div>
 
-            <button type="submit" class="btn">Generate Obituary</button>
+            <button type="submit" class="btn" id="submitButton">Generate Obituary</button>
         </form>
+
+        <div class="loader" id="loader"></div>
 
         <div id="obituaryOutput" class="hidden">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Generated Obituary</h2>
@@ -143,6 +164,12 @@
         document.getElementById('obituaryForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Show loader and disable button
+            const loader = document.getElementById('loader');
+            const submitButton = document.getElementById('submitButton');
+            loader.style.display = 'block';
+            submitButton.disabled = true;
+
             // Collect form data
             const fullName = document.getElementById('fullName').value || '[Full Name]';
             const birthDate = document.getElementById('birthDate').value || '[Birth Date]';
@@ -164,7 +191,7 @@ Include details like: ${relocation ? `Immigration/relocation: ${relocation}. ` :
 Hobbies: ${hobbies}. Career/achievements: ${career}. ${donations ? `Donations to: ${donations}. ` : ''}${thanks ? `Special thanks: ${thanks}. ` : ''}Funeral: ${funeral}. Burial: ${burial}. 
 Make it warm, concise, and around 200-300 words.`;
 
-            // Cohere API key provided
+            // Cohere API key
             const apiKey = 'tGs2ZSjQdvUrHD8cKcMUFGvpGK7BgFaVgABgQmJl';
 
             try {
@@ -175,7 +202,7 @@ Make it warm, concise, and around 200-300 words.`;
                         'Authorization': `Bearer ${apiKey}`
                     },
                     body: JSON.stringify({
-                        model: 'command', // Cohere's text generation model (updated to a commonly used model)
+                        model: 'command', // Cohere's text generation model
                         prompt: prompt,
                         max_tokens: 500,
                         temperature: 0.7
@@ -197,6 +224,10 @@ Make it warm, concise, and around 200-300 words.`;
             } catch (error) {
                 console.error('Error generating obituary:', error);
                 alert('Failed to generate obituary. Check console for details.');
+            } finally {
+                // Hide loader and re-enable button
+                loader.style.display = 'none';
+                submitButton.disabled = false;
             }
         });
     </script>
