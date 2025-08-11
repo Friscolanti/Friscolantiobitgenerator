@@ -182,24 +182,24 @@
 
             // Collect form data
             const fullName = document.getElementById('fullName').value || '[Full Name]';
-            const birthDate = document.getElementById('birthDate').value || '[Birth Date]';
-            const deathDate = document.getElementById('deathDate').value || '[Date of Passing]';
-            const placeOfPassing = document.getElementById('placeOfPassing').value || '[Place of Passing]';
-            const birthplace = document.getElementById('birthplace').value || '[Birthplace]';
+            const birthDate = document.getElementById('birthDate').value || '';
+            const deathDate = document.getElementById('deathDate').value || '';
+            const placeOfPassing = document.getElementById('placeOfPassing').value || '';
+            const birthplace = document.getElementById('birthplace').value || '';
             const relocation = document.getElementById('relocation').value || '';
             const heritage = document.getElementById('heritage').value || '';
-            const family = document.getElementById('family').value || '[Family Members]';
-            const hobbies = document.getElementById('hobbies').value || '[Hobbies and Interests]';
-            const career = document.getElementById('career').value || '[Career or Achievements]';
+            const family = document.getElementById('family').value || '';
+            const hobbies = document.getElementById('hobbies').value || '';
+            const career = document.getElementById('career').value || '';
             const donations = document.getElementById('donations').value || '';
             const thanks = document.getElementById('thanks').value || '';
             const visitation = document.getElementById('visitation').value || '';
-            const funeralService = document.getElementById('funeralService').value || '[Funeral Service Details]';
-            const burial = document.getElementById('burial').value || '[Burial or Entombment Details]';
+            const funeralService = document.getElementById('funeralService').value || '';
+            const burial = document.getElementById('burial').value || '';
 
             // Calculate age (simple year-based calculation)
-            let age = '[Age]';
-            if (birthDate !== '[Birth Date]' && deathDate !== '[Date of Passing]') {
+            let age = '';
+            if (birthDate && deathDate) {
                 const birthYear = parseInt(birthDate.match(/\d{4}/));
                 const deathYear = parseInt(deathDate.match(/\d{4}/));
                 if (birthYear && deathYear) {
@@ -208,21 +208,30 @@
             }
 
             // Construct visitation details with fixed location
-            const visitationDetails = `Visitation at FRISCOLANTI FUNERAL CHAPEL, 43 Barton St. E. ${visitation ? `on ${visitation}.` : ''}`;
+            const visitationDetails = visitation ? `Visitation at FRISCOLANTI FUNERAL CHAPEL, 43 Barton St. E. on ${visitation}.` : '';
 
-            // Construct a prompt for Cohere with structured format
-            const prompt = `Generate a heartfelt, professional obituary for ${fullName} in the following exact order and style, using only the provided details without adding or inventing names, websites, or additional information. For deceased family members, use 'the late' as provided (e.g., 'the late John Doe'). Do not include condolence websites or external links.
+            // Construct a prompt for Cohere with structured format and omissions for blank fields
+            const prompt = `Generate a heartfelt, professional obituary for ${fullName} in the following order, using only the provided details exactly as given without adding, inventing, or expanding any names, details, websites, or information. Omit any section if no details are provided for it. For deceased family members, use 'the late' as provided (e.g., 'the late John Doe'). Do not include condolence websites or external links. Make the narrative flow smoothly and naturally, connecting sections without abruptness, warm, concise, and around 200-300 words.
 
-1. Start with: "Passed away peacefully at ${placeOfPassing} on ${deathDate}, at the age of ${age}."
-2. Follow with: "Born on ${birthDate} in ${birthplace}, ${fullName} built a meaningful life rooted in ${heritage ? `${heritage}` : 'love and dedication'}${relocation ? ` after ${relocation}` : ''}."
-3. Family: "${family}."
-4. Personal qualities: Describe ${fullName} as a person based on provided details, e.g., kind, loving, or strong.
-5. Career and hobbies: "${career}. Outside of work, ${fullName} enjoyed ${hobbies}."
-6. Special thanks: "${thanks ? `Special thank you to ${thanks}.` : ''}"
-7. Funeral details: "Resting at FRISCOLANTI FUNERAL CHAPEL, 43 Barton St. E., ${visitation ? `on ${visitation}` : 'with visitation details to be announced'} until the time of the funeral service ${funeralService}. ${burial ? `Entombment to follow at ${burial}.` : ''}"
-8. Closing: "We celebrate ${fullName}'s life with gratitude for the love they gave and the legacy they leave behind."
+Start with: "Passed away peacefully at ${placeOfPassing} on ${deathDate}${age ? `, at the age of ${age}` : ''}."
 
-Keep the tone warm, concise, and around 200-300 words.`;
+Birth and background: If provided, "Born on ${birthDate}${birthplace ? ` in ${birthplace}` : ''}${relocation ? `, ${relocation}` : ''}${heritage ? `, ${fullName} embodied ${heritage}` : ''}."
+
+Family: If provided, "Family: ${family}."
+
+Hobbies: If provided, "Hobbies: ${hobbies}."
+
+Career: If provided, "Career: ${career}."
+
+Donations: If provided, "Donations: In lieu of flowers, donations to ${donations}."
+
+Thanks: If provided, "Thanks: ${thanks}."
+
+Visitation and funeral: If provided, "${visitationDetails} ${funeralService}."
+
+Burial: If provided, "Burial: ${burial}."
+
+Ensure the obituary flows as a cohesive narrative, not a list, blending the sections smoothly.`;
 
             // Cohere API key
             const apiKey = 'tGs2ZSjQdvUrHD8cKcMUFGvpGK7BgFaVgABgQmJl';
